@@ -139,13 +139,10 @@ const login = (req, res) => {
                         const token = jwt.sign({id: DBuser._id}, 'AccessTokenPassword', {
                             expiresIn: 86400 // expires in 24 hours
                         });
-
                         res.send({
                             error: false,
                             token: token
                         })
-
-
                     } else {
                         return res.status(401).send({
                             error: result,

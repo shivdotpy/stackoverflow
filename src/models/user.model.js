@@ -5,6 +5,7 @@ const userModel = new mongoose.Schema({
     email: String,
     password: String,
     mobile: String,
+    reputation: {type: Number, default: 0},
     posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}]
 });
 

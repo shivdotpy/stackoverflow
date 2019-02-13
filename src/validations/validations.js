@@ -59,7 +59,29 @@ const mobileNumberValidation = (value) => {
     return result
 };
 
+
+titleValidation = (value) => {
+    const result = {
+        required: false
+    };
+    if (!value) result.required = true;
+
+    return result
+};
+
+descriptionValidation = (value) => {
+    const result = {
+        required: false
+    };
+    if (!value) result.required = true;
+
+    return result
+};
+
+
 module.exports.emailValidation = emailValidation;
 module.exports.passwordValidation = passwordValidation;
 module.exports.nameValidation = nameValidation;
 module.exports.mobileNumberValidation = mobileNumberValidation;
+module.exports.titleValidation = titleValidation;
+module.exports.descriptionValidation = descriptionValidation;
