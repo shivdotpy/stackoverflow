@@ -1,6 +1,7 @@
 const User = require('../models/user.model');
 const validations = require('../validations/validations');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // SIGNUP
 const signup = (req, res) => {
@@ -54,14 +55,14 @@ const signup = (req, res) => {
     }
 
     // Check Db for user exist or not
-    User.findOne({email: req.body.email}, (err, user) => {
+    User.findOne({email: req.body.email}, (err, DBuser) => {
         if (err) {
             return res.status(500).send({
                 error: err,
                 message: 'Something went wrong, please try again later'
             })
         } else {
-            if (user) {
+            if (DBuser) {
                 return res.send({
                     error: true,
                     message: 'User already exists'
@@ -69,7 +70,7 @@ const signup = (req, res) => {
             } else {
 
                 // create hash of password
-                bcrypt.hash('SomeSecret', 10, (err, hash) => {
+                bcrypt.hash(req.body.password, 10, (err, hash) => {
                     const user = new User({
                         name: req.body.name,
                         email: req.body.email,
@@ -80,7 +81,7 @@ const signup = (req, res) => {
                     user.save()
                         .then(() => {
                             return res.status(201).send({
-                                error:false,
+                                error: false,
                                 message: 'User created successfully, please check your email for further verification'
                             })
                         })
@@ -91,18 +92,76 @@ const signup = (req, res) => {
                             })
                         })
                 });
-                // res.send('start work on create user')
             }
         }
     })
-
-
 };
 
 // LOGIN
 const login = (req, res) => {
 
+    // Email Validation
+    const emailValidResult = validations.emailValidation(req.body.email);
+    if (emailValidResult.required) {
+        return res.status(400).send({
+            message: 'Email required'
+        })
+    } else if (emailValidResult.invalid) {
+        return res.status(400).send({
+            message: 'Invalid email'
+        })
+    }
+
+    // Password Validation
+    const passwordValidResult = validations.passwordValidation(req.body.password);
+    if (passwordValidResult.required) {
+        return res.status(400).send({
+            message: 'Password required'
+        })
+    } else if (passwordValidResult.invalid) {
+        return res.status(401).send({
+            message: 'Unauthorised access'
+        })
+    }
+
+
+    User.findOne({email: req.body.email}, (err, DBuser) => {
+        if (err) {
+            return res.status(500).send({
+                error: err,
+                message: 'Something went wrong, please try again later'
+            })
+        } else {
+            if (DBuser) {
+                bcrypt.compare(req.body.password, DBuser.password, (err, result) => {
+                    if (result) {
+                        // generate access token here
+                        const token = jwt.sign({id: DBuser._id}, 'AccessTokenPassword', {
+                            expiresIn: 86400 // expires in 24 hours
+                        });
+
+                        res.send({
+                            error: false,
+                            token: token
+                        })
+
+
+                    } else {
+                        return res.status(401).send({
+                            error: result,
+                            message: 'Unauthorised access'
+                        })
+                    }
+                })
+            } else {
+                return res.status(401).send({
+                    message: 'Unauthorised access'
+                })
+            }
+        }
+    })
 };
 
 
 module.exports.signup = signup;
+module.exports.login = login;
