@@ -63,7 +63,7 @@ const signup = (req, res) => {
             })
         } else {
             if (DBuser) {
-                return res.send({
+                return res.status(400).send({
                     error: true,
                     message: 'User already exists'
                 })
@@ -82,7 +82,7 @@ const signup = (req, res) => {
                         .then(() => {
                             return res.status(201).send({
                                 error: false,
-                                message: 'User created successfully, please check your email for further verification'
+                                message: 'User created successfully !'
                             })
                         })
                         .catch((err) => {

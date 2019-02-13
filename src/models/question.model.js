@@ -5,18 +5,21 @@ const questionModel = mongoose.Schema({
     title: String,
     description: String,
     tags: [{name: String}],
+    like: {type: Number, default: 0},
     comments: [{
         author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-        answer: String
+        answer: String,
+        like: {type: Number, default: 0},
     }],
     answers: [{
         author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
         answer: String,
         comments: [{
             author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-            answer: String
+            answer: String,
+            like: {type: Number, default: 0},
         }]
     }]
-});
+}, {timestamps: true});
 
 module.exports = mongoose.model('Question', questionModel);
