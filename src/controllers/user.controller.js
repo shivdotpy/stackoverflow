@@ -1,5 +1,6 @@
 const User = require('../models/user.model');
 const validations = require('../validations/validations');
+const bcrypt = require('bcrypt');
 
 // SIGNUP
 const signup = (req, res) => {
@@ -52,10 +53,47 @@ const signup = (req, res) => {
         })
     }
 
+    // Check Db for user exist or not
+    User.findOne({email: req.body.email}, (err, user) => {
+        if (err) {
+            return res.status(500).send({
+                error: err,
+                message: 'Something went wrong, please try again later'
+            })
+        } else {
+            if (user) {
+                return res.send({
+                    error: true,
+                    message: 'User already exists'
+                })
+            } else {
 
-    User.find({email: req.body.email}, (err, user) => {
-        console.log(err)
-        console.log(user)
+                // create hash of password
+                bcrypt.hash('SomeSecret', 10, (err, hash) => {
+                    const user = new User({
+                        name: req.body.name,
+                        email: req.body.email,
+                        password: hash,
+                        mobile: req.body.mobile
+                    });
+
+                    user.save()
+                        .then(() => {
+                            return res.status(201).send({
+                                error:false,
+                                message: 'User created successfully, please check your email for further verification'
+                            })
+                        })
+                        .catch((err) => {
+                            return res.status(500).send({
+                                error: err,
+                                message: 'Something went wrong please try again later'
+                            })
+                        })
+                });
+                // res.send('start work on create user')
+            }
+        }
     })
 
 
