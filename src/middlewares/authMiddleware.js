@@ -10,7 +10,9 @@ const authMiddleware = (req, res, next) => {
         });
     } else {
         return res.status(401).send({
-            message: 'Unauthorised access'
+            error: true,
+            message: 'Unauthorised access',
+            reason: 'No Access token provided'
         })
     }
 };

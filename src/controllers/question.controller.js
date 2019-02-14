@@ -91,6 +91,7 @@ const getUserQuestions = (req, res) => {
     });
 };
 
+// make this for user (PENDING)
 const getQuestionByTags = (req, res) => {
     const tag = req.params.tag.toLowerCase();
     Question.find({"tags.name": tag})
@@ -111,7 +112,54 @@ const getQuestionByTags = (req, res) => {
         })
 };
 
+const voteQuestion = (req, res) => {
+    jwt.verify(req.headers.authorization.split(' ')[1], 'AccessTokenPassword', function (err, decoded) {
+        const userId = decoded.id;
+        console.log('userid', userId);
+        const vote = req.body.vote;
+        console.log('vote', vote);
+        const questionId = req.body.questionId;
+        console.log('question id', questionId);
+
+        if (!vote) {
+            return res.status(400).send({
+                message: 'Vote required'
+            })
+        } else if (!questionId) {
+            return res.status(400).send({
+                message: 'Question id required'
+            })
+        } else {
+
+            let count = ['1', '0', '-1'];
+            if (count.indexOf(vote) < 0) {
+                return res.status(400).send({
+                    message: 'Invalid count'
+                })
+            }
+
+            Question.findOneAndUpdate({_id: questionId}, {'$push': {like: {author: userId, count: vote}}})
+                .exec()
+                .then((data) => {
+                    console.log(data);
+                    return res.status(201).send({
+                        error: false,
+                        message: 'like updated'
+                    })
+                })
+                .catch((error) => {
+                    console.log(error);
+                    return res.status(500).send({
+                        error: error,
+                        message: 'Something went wrong, please try again later'
+                    })
+                })
+        }
+    });
+};
+
 module.exports.addQuestion = addQuestion;
 module.exports.getUserQuestions = getUserQuestions;
 module.exports.getQuestionByTags = getQuestionByTags;
 module.exports.getQuestions = getQuestions;
+module.exports.voteQuestion = voteQuestion;

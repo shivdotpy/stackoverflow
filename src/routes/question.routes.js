@@ -11,4 +11,6 @@ router.get('/all/:tag', question.getQuestionByTags);
 router.get('/my-questions', authMiddleware, question.getUserQuestions);
 router.get('/my-questions/:page', authMiddleware, question.getUserQuestions);
 
+router.post('/vote/:id', authMiddleware, question.voteQuestion);
+
 module.exports = router;

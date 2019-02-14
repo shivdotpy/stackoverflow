@@ -5,11 +5,18 @@ const questionModel = mongoose.Schema({
     title: String,
     description: String,
     tags: [{name: String}],
-    like: {type: Number, default: 0},
+    like: [{
+        author: {type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true},
+        count: Number
+    }],
     comments: [{
         author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
         answer: String,
-        like: {type: Number, default: 0},
+        like: [{
+            author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+            type: Number,
+            enum: [1, 0, -1]
+        }],
     }],
     answers: [{
         author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
@@ -17,7 +24,11 @@ const questionModel = mongoose.Schema({
         comments: [{
             author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
             answer: String,
-            like: {type: Number, default: 0},
+            like: [{
+                author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+                type: Number,
+                default: 0
+            }],
         }]
     }]
 }, {timestamps: true});
