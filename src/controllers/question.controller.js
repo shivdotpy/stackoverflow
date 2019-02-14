@@ -138,21 +138,65 @@ const voteQuestion = (req, res) => {
                 })
             }
 
-            Question.findOneAndUpdate({_id: questionId}, {'$push': {like: {author: userId, count: vote}}})
-                .exec()
+            // insert or update doucment according to like (PENDING)
+
+            Question.findOne({_id: questionId}, {like: 1})
                 .then((data) => {
-                    console.log(data);
-                    return res.status(201).send({
-                        error: false,
-                        message: 'like updated'
-                    })
-                })
-                .catch((error) => {
-                    console.log(error);
-                    return res.status(500).send({
-                        error: error,
-                        message: 'Something went wrong, please try again later'
-                    })
+
+                    if (!data) {
+                        return res.status(404).send({
+                            error: true,
+                            message: 'Question not found with this ID'
+                        })
+                    }
+
+                    // GET question id
+                    let idFound = false;
+                    let likeId = '';
+                    for (let i = 0; i < data.like.length; i++) {
+                        if (data.like[i].author == userId) {
+                            idFound = true;
+                            likeId = data.like[i]._id
+                        }
+                    }
+
+                    if (idFound) {
+                        // UPDATE
+                        let likeArray = [...data.like];
+                        for (let i = 0; i < likeArray.length; i++) {
+                            if (likeArray[i].author == userId) {
+                                likeArray[i].count = vote
+                            }
+                        }
+
+                        Question.findOneAndUpdate({_id: questionId}, {'$set': {like: likeArray}})
+                            .then((data) => {
+                                return res.status(200).send({
+                                    message: 'Like updated successfully'
+                                })
+                            })
+                            .catch((error) => {
+                                return res.status(500).send({
+                                    error: error,
+                                    message: 'Something went wrong, please try again later'
+                                })
+                            })
+
+                    } else {
+                        // CREATE (working)
+                        Question.findOneAndUpdate({_id: questionId}, {'$push': {like: {author: userId, count: vote}}})
+                            .then(() => {
+                                return res.status(200).send({
+                                    message: 'Like created successfully'
+                                })
+                            })
+                            .catch((error) => {
+                                return res.status(500).send({
+                                    error: error,
+                                    message: 'Something went wrong, please try again later'
+                                })
+                            })
+                    }
                 })
         }
     });
