@@ -138,8 +138,6 @@ const voteQuestion = (req, res) => {
                 })
             }
 
-            // insert or update doucment according to like (PENDING)
-
             Question.findOne({_id: questionId}, {like: 1})
                 .then((data) => {
 
