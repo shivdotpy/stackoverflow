@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f0723b0-13d4-492e-b4e3-c0b7d17097fc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/controllers/question.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/question.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/question.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/question.model.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -15,26 +16,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/models/question.model.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-142">
-              <caret line="7" column="12" lean-forward="true" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+            <state relative-caret-position="414">
+              <caret line="18" column="7" lean-forward="true" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controllers/question.controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="204" column="53" lean-forward="true" selection-start-line="204" selection-start-column="53" selection-end-line="204" selection-end-column="53" />
+            <state relative-caret-position="2185">
+              <caret line="196" column="21" selection-start-line="196" selection-start-column="21" selection-end-line="196" selection-end-column="21" />
               <folding>
                 <element signature="e#185#1751#0" />
                 <element signature="e#1789#1815#0" />
                 <element signature="e#1857#2797#0" />
                 <element signature="e#2872#3357#0" />
-                <element signature="e#3395#4986#0" />
               </folding>
             </state>
           </provider>
@@ -63,41 +63,23 @@
         <option value="$PROJECT_DIR$/src/routes/question.routes.js" />
         <option value="$PROJECT_DIR$/src/middlewares/authMiddleware.js" />
         <option value="$PROJECT_DIR$/src/controllers/user.controller.js" />
-        <option value="$PROJECT_DIR$/src/models/question.model.js" />
         <option value="$PROJECT_DIR$/src/controllers/question.controller.js" />
+        <option value="$PROJECT_DIR$/src/models/question.model.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="44" />
-    <option name="y" value="-11" />
-    <option name="width" value="1877" />
-    <option name="height" value="1092" />
+    <option name="x" value="45" />
+    <option name="y" value="-4" />
+    <option name="width" value="1875" />
+    <option name="height" value="1084" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="stackoverflow" type="b2602c69:ProjectViewProjectNode" />
-              <item name="stackoverflow" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="stackoverflow" type="b2602c69:ProjectViewProjectNode" />
-              <item name="stackoverflow" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -137,15 +119,19 @@
       <workItem from="1550045863815" duration="5613000" />
       <workItem from="1550056381418" duration="4664000" />
       <workItem from="1550115658146" duration="94000" />
-      <workItem from="1550116430453" duration="22101000" />
+      <workItem from="1550116430453" duration="22580000" />
+      <workItem from="1550201291660" duration="1568000" />
+      <workItem from="1550461109136" duration="71000" />
+      <workItem from="1550461219542" duration="1662000" />
+      <workItem from="1550548587661" duration="2745000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52046000" />
+    <option name="totallyTimeSpent" value="58571000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="44" y="-11" width="1877" height="1092" extended-state="6" />
+    <frame x="45" y="-4" width="1875" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.13120951" />
@@ -253,21 +239,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/question.model.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-142">
-          <caret line="7" column="12" lean-forward="true" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+        <state relative-caret-position="414">
+          <caret line="18" column="7" lean-forward="true" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/controllers/question.controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="204" column="53" lean-forward="true" selection-start-line="204" selection-start-column="53" selection-end-line="204" selection-end-column="53" />
+        <state relative-caret-position="2185">
+          <caret line="196" column="21" selection-start-line="196" selection-start-column="21" selection-end-line="196" selection-end-column="21" />
           <folding>
             <element signature="e#185#1751#0" />
             <element signature="e#1789#1815#0" />
             <element signature="e#1857#2797#0" />
             <element signature="e#2872#3357#0" />
-            <element signature="e#3395#4986#0" />
           </folding>
         </state>
       </provider>

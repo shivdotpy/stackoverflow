@@ -14,8 +14,7 @@ const questionModel = mongoose.Schema({
         answer: String,
         like: [{
             author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-            type: Number,
-            enum: [1, 0, -1]
+            count: Number
         }],
     }],
     answers: [{
