@@ -2,6 +2,7 @@ const Question = require('../models/question.model');
 const validations = require('../validations/validations');
 const jwt = require('jsonwebtoken');
 
+// USER
 const addQuestion = (req, res) => {
     // Title Validation
     const titleValidResult = validations.titleValidation(req.body.title);
@@ -54,10 +55,7 @@ const addQuestion = (req, res) => {
     });
 };
 
-const getQuestions = (req, res) => {
-    // Question.find()
-};
-
+// USER
 const getUserQuestions = (req, res) => {
     jwt.verify(req.headers.authorization.split(' ')[1], 'AccessTokenPassword', function (err, decoded) {
         const userId = decoded.id;
@@ -91,31 +89,7 @@ const getUserQuestions = (req, res) => {
     });
 };
 
-const getQuestionById = (req, res) => {
-
-    const id = req.params.id;
-
-    Question.findOne({_id: id})
-        .then((data) => {
-            if (!data) {
-                return res.status(404).send({
-                    error: true,
-                    message: 'Question not found'
-                })
-            }
-            return res.status(200).send({
-                error: false,
-                data: data
-            })
-        })
-        .catch((error) => {
-            return res.status(500).send({
-                error: error,
-                message: 'Something went wrong, please try again later',
-            })
-        });
-};
-
+// USER
 const searchUserQuestions = (req, res) => {
     jwt.verify(req.headers.authorization.split(' ')[1], 'AccessTokenPassword', function (err, decoded) {
         const userId = decoded.id;
@@ -165,28 +139,77 @@ const searchUserQuestions = (req, res) => {
     });
 };
 
+// USER
+const getUserQuestionByTags = (req, res) => {
+    jwt.verify(req.headers.authorization.split(' ')[1], 'AccessTokenPassword', function (err, decoded) {
+        const userId = decoded.id;
 
-// make this for user (PENDING)
-const getQuestionByTags = (req, res) => {
-    const tag = req.params.tag.toLowerCase();
-    Question.find({"tags.name": tag})
-        .sort({createdAt: -1})
-        .limit(10)
-        .exec()
+        // PAGINATION STARTS
+        const page = req.params.page;
+        if (!page) {
+            return res.status(400).send({
+                error: true,
+                message: 'No page number sent'
+            });
+        }
+
+        let skip = 0;
+        if (page) {
+            skip = (page - 1) * 10
+        }
+        // PAGINATION ENDS
+
+        // Tag
+        const tag = req.params.tag.toLowerCase();
+
+        Question.find({author: userId, "tags.name": tag})
+            .populate({path: 'author', select: 'name email -_id'})
+            .sort({createdAt: -1})
+            .skip(skip)
+            .limit(10)
+            .exec()
+            .then((data) => {
+                return res.status(200).send({
+                    error: false,
+                    data: data
+                })
+            })
+            .catch((error) => {
+                return res.status(500).send({
+                    error: error,
+                    message: 'Something went wrong, please try again later'
+                })
+            })
+    });
+};
+
+// BOTH
+const getQuestionById = (req, res) => {
+
+    const id = req.params.id;
+
+    Question.findOne({_id: id})
         .then((data) => {
-            res.status(200).send({
+            if (!data) {
+                return res.status(404).send({
+                    error: true,
+                    message: 'Question not found'
+                })
+            }
+            return res.status(200).send({
                 error: false,
                 data: data
             })
         })
-        .catch((err) => {
-            res.status(500).send({
-                error: true,
-                message: 'Something went wrong, please try again later'
+        .catch((error) => {
+            return res.status(500).send({
+                error: error,
+                message: 'Something went wrong, please try again later',
             })
-        })
+        });
 };
 
+// BOTH
 const voteQuestion = (req, res) => {
     jwt.verify(req.headers.authorization.split(' ')[1], 'AccessTokenPassword', function (err, decoded) {
         const userId = decoded.id;
@@ -275,9 +298,13 @@ const voteQuestion = (req, res) => {
     });
 };
 
+const getQuestions = (req, res) => {
+    // Question.find()
+};
+
 module.exports.addQuestion = addQuestion;
 module.exports.getUserQuestions = getUserQuestions;
-module.exports.getQuestionByTags = getQuestionByTags;
+module.exports.getUserQuestionByTags = getUserQuestionByTags;
 module.exports.getQuestions = getQuestions;
 module.exports.voteQuestion = voteQuestion;
 module.exports.searchUserQuestions = searchUserQuestions;
