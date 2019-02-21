@@ -298,8 +298,30 @@ const voteQuestion = (req, res) => {
     });
 };
 
+// PUBLIC
 const getQuestions = (req, res) => {
-    // Question.find()
+    // PAGINATION
+    const page = req.params.page;
+    let skip = (page - 1) * 10;
+
+    Question.find({})
+        .populate({path: 'author', select: 'name email -_id'})
+        .sort({createdAt: -1})
+        .skip(skip)
+        .limit(10)
+        .exec()
+        .then((data) => {
+            return res.status(200).send({
+                error: false,
+                data: data
+            })
+        })
+        .catch((error) => {
+            return res.status(500).send({
+                error: error,
+                message: 'Something went wrong, please try again later'
+            })
+        })
 };
 
 module.exports.addQuestion = addQuestion;
