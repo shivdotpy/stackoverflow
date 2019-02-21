@@ -91,6 +91,56 @@ const getUserQuestions = (req, res) => {
     });
 };
 
+const searchUserQuestions = (req, res) => {
+    jwt.verify(req.headers.authorization.split(' ')[1], 'AccessTokenPassword', function (err, decoded) {
+        const userId = decoded.id;
+
+        // PAGINATION STARTS
+        const page = req.params.page;
+        if (!page) {
+            return res.status(400).send({
+                error: true,
+                message: 'No page number sent'
+            });
+        }
+
+        let skip = 0;
+        if (page) {
+            skip = (page - 1) * 10
+        }
+        // PAGINATION ENDS
+
+        // SEARCH QUERY
+        const search = req.params.search;
+        if (!search) {
+            return res.status(400).send({
+                error: true,
+                message: 'No search query sent'
+            })
+        }
+
+        Question.find({author: userId, title: { "$regex": search.trim(), "$options": "i" }})
+            .populate({path: 'author', select: 'name email -_id'})
+            .sort({createdAt: -1})
+            .skip(skip)
+            .limit(10)
+            .exec()
+            .then((data) => {
+                return res.status(200).send({
+                    error: false,
+                    data: data
+                })
+            })
+            .catch((error) => {
+                return res.status(500).send({
+                    error: error,
+                    message: 'Something went wrong, please try again later'
+                })
+            })
+    });
+};
+
+
 // make this for user (PENDING)
 const getQuestionByTags = (req, res) => {
     const tag = req.params.tag.toLowerCase();
@@ -205,3 +255,4 @@ module.exports.getUserQuestions = getUserQuestions;
 module.exports.getQuestionByTags = getQuestionByTags;
 module.exports.getQuestions = getQuestions;
 module.exports.voteQuestion = voteQuestion;
+module.exports.searchUserQuestions = searchUserQuestions;

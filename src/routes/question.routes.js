@@ -10,7 +10,8 @@ router.get('/all/:tag', question.getQuestionByTags);
 
 router.get('/my-questions', authMiddleware, question.getUserQuestions);
 router.get('/my-questions/:page', authMiddleware, question.getUserQuestions);
+router.get('/search-my-questions/:search/:page', authMiddleware, question.searchUserQuestions);
 
-router.post('/vote/:id', authMiddleware, question.voteQuestion);
+router.post('/vote', authMiddleware, question.voteQuestion);
 
 module.exports = router;
