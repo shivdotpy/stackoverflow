@@ -91,6 +91,31 @@ const getUserQuestions = (req, res) => {
     });
 };
 
+const getQuestionById = (req, res) => {
+
+    const id = req.params.id;
+
+    Question.findOne({_id: id})
+        .then((data) => {
+            if (!data) {
+                return res.status(404).send({
+                    error: true,
+                    message: 'Question not found'
+                })
+            }
+            return res.status(200).send({
+                error: false,
+                data: data
+            })
+        })
+        .catch((error) => {
+            return res.status(500).send({
+                error: error,
+                message: 'Something went wrong, please try again later',
+            })
+        });
+};
+
 const searchUserQuestions = (req, res) => {
     jwt.verify(req.headers.authorization.split(' ')[1], 'AccessTokenPassword', function (err, decoded) {
         const userId = decoded.id;
@@ -119,7 +144,7 @@ const searchUserQuestions = (req, res) => {
             })
         }
 
-        Question.find({author: userId, title: { "$regex": search.trim(), "$options": "i" }})
+        Question.find({author: userId, title: {"$regex": search.trim(), "$options": "i"}})
             .populate({path: 'author', select: 'name email -_id'})
             .sort({createdAt: -1})
             .skip(skip)
@@ -256,3 +281,4 @@ module.exports.getQuestionByTags = getQuestionByTags;
 module.exports.getQuestions = getQuestions;
 module.exports.voteQuestion = voteQuestion;
 module.exports.searchUserQuestions = searchUserQuestions;
+module.exports.getQuestionById = getQuestionById;
