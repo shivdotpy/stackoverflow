@@ -324,6 +324,16 @@ const getQuestions = (req, res) => {
         })
 };
 
+// PENDING
+const getQuestionsBytag = (req, res) => {
+
+};
+
+// PENDING
+const searchQuestions = (req, res) => {
+
+};
+
 module.exports.addQuestion = addQuestion;
 module.exports.getUserQuestions = getUserQuestions;
 module.exports.getUserQuestionByTags = getUserQuestionByTags;

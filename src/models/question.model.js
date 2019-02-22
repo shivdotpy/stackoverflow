@@ -6,7 +6,7 @@ const questionModel = mongoose.Schema({
     description: String,
     tags: [{name: String}],
     like: [{
-        author: {type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true},
+        author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
         count: Number
     }],
     comments: [{

@@ -142,6 +142,7 @@ const login = (req, res) => {
                         res.send({
                             error: false,
                             id:  DBuser._id,
+                            name: DBuser.name,
                             message: 'User successfully logged in',
                             token: token
                         })

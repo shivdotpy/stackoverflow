@@ -3,7 +3,7 @@ const router = express.Router();
 const question = require('../controllers/question.controller');
 const authMiddleware = require('../middlewares/authMiddleware');
 
-router.get('/:page', authMiddleware, question.getQuestions);
+router.get('/:page', question.getQuestions);
 router.get('/get-question-by-id/:id', authMiddleware, question.getQuestionById);
 
 router.post('/', authMiddleware, question.addQuestion);
