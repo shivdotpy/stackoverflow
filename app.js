@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 // ROUTERS
 const userRoute = require('./src/routes/user.routes');
 const questionRoute = require('./src/routes/question.routes');
+const answerRoute = require('./src/routes/answer.routes');
 
 // DB connection
 mongoose.connect('mongodb://localhost:27017/stackoverflow', {useNewUrlParser: true})
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use('/api/user', userRoute);
 app.use('/api/question', questionRoute);
+app.use('/api/answer', answerRoute);
 
 const port = 3000;
 app.listen(port, () => {

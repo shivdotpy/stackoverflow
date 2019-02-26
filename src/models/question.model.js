@@ -17,19 +17,7 @@ const questionModel = mongoose.Schema({
             count: Number
         }],
     }],
-    answers: [{
-        author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-        answer: String,
-        comments: [{
-            author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-            answer: String,
-            like: [{
-                author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-                type: Number,
-                default: 0
-            }],
-        }]
-    }]
+    answers: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
 }, {timestamps: true});
 
 module.exports = mongoose.model('Question', questionModel);

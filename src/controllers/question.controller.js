@@ -58,6 +58,8 @@ const addQuestion = (req, res) => {
 // USER
 const getUserQuestions = (req, res) => {
     jwt.verify(req.headers.authorization.split(' ')[1], 'AccessTokenPassword', function (err, decoded) {
+
+        console.log('why')
         const userId = decoded.id;
 
         // PAGINATION STARTS
